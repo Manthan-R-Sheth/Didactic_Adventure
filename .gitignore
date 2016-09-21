@@ -4,5 +4,15 @@
 /.idea/workspace.xml
 /.idea/libraries
 .DS_Store
+.idea
 /build
 /captures
+.idea/
+*.log
+*.apk
+*.ap_
+*.dex
+*.class
+bin/
+gen/
+out/
