@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">VendorApp</string>
     <string name="title_activity_maps">Map</string>
+    <string name="your_location">Your Location</string>
+    <string name="current_location">Tell us your current location and we will serve you with nearby <i>Food Outlets</i></string>
 </resources>
