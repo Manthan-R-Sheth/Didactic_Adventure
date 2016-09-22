@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#EB6245</color>
+    <color name="colorPrimaryDark">#D9492D</color>
+    <color name="colorAccent">#979C87</color>
+    <color name="spaceShuttle">#4A4135</color>
+    <color name="tonysPink">#E8A695</color>
+    <color name="whiteSmoke">#F9F8F8</color>
 </resources>
