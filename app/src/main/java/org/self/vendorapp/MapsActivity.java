@@ -2,6 +2,7 @@ package org.self.vendorapp;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -9,12 +10,15 @@ import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.widget.SlidingPaneLayout;
 import android.util.Log;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.clustering.ClusterManager;
@@ -36,15 +40,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
     private boolean mapCameraMovedForCurrentLocation = false;
-    ClusterManager<VendorShops> mClusterManager;
+    private ClusterManager<VendorShops> mClusterManager;
+
+    //To be used for showing shop details
+    private SlidingPaneLayout slidingPaneLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
     }
 
     @Override
@@ -55,7 +59,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void setUpMapifNeeded() {
         if (mMap == null) {
-            // Try to obtain the map from the SupportMapFragment.
             ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMapAsync(this);
         }
     }
@@ -71,7 +74,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             String locationProvider = locationManager.getBestProvider(criteria,true);
             LocationListener locationListener = new LocationListener() {
                 public void onLocationChanged(Location location) {
-                    // Called when a new location is found by the network location provider.
                     onLocationsChanged(location);
                 }
 
@@ -102,10 +104,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private void setUpClustering() {
         mClusterManager = new ClusterManager<VendorShops>(this, mMap);
 
-        mMap.setOnCameraChangeListener(mClusterManager);
+        mMap.setOnCameraIdleListener(mClusterManager);
         mMap.setOnMarkerClickListener(mClusterManager);
 
-        // Add cluster items (markers) to the cluster manager.
         addItems();
         mClusterManager.setOnClusterItemClickListener(new ClusterManager.OnClusterItemClickListener<VendorShops>() {
             @Override
@@ -130,10 +131,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 6));
             mMap.animateCamera(CameraUpdateFactory.zoomTo(12), 2000, null);
-            mMap.addMarker(new MarkerOptions()
-                    .position(latLng)
-                    .title("Marker").draggable(false));
+//            mMap.addMarker(new MarkerOptions()
+//                    .position(latLng)
+//                    .title("Marker").draggable(false));
             mapCameraMovedForCurrentLocation = !mapCameraMovedForCurrentLocation;
+
+            // Get back the mutable Circle
+            Circle circle = mMap.addCircle(new CircleOptions()
+                    .center(latLng)
+                    .radius(1000) // radius provided by user
+                    .strokeWidth(10)
+                    .strokeColor(Color.CYAN)
+                    .fillColor(Color.argb(0, 0, 150, 0))
+                    .clickable(true));
+            mMap.setOnCircleClickListener(new GoogleMap.OnCircleClickListener() {
+                @Override
+                public void onCircleClick(Circle circle) {
+                    
+                }
+            });
         }
     }
 
