@@ -43,16 +43,19 @@
 
         <activity
             android:name=".MapsActivity"
-            android:label="@string/title_activity_maps" />
+            android:label="@string/title_activity_maps" >
+        </activity>
         <activity android:name=".HomeScreen">
+
+        </activity>
+        <activity
+            android:name=".Launcher"
+            android:theme="@style/NoActionBarTheme" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".Launcher"
-            android:theme="@style/NoActionBarTheme" />
     </application>
 
 </manifest>

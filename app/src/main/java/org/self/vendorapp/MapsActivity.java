@@ -1,15 +1,14 @@
 package org.self.vendorapp;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Color;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SlidingPaneLayout;
 import android.util.Log;
 
@@ -20,7 +19,6 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.clustering.ClusterManager;
 
 import org.json.JSONArray;
@@ -36,7 +34,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback{
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private boolean mapCameraMovedForCurrentLocation = false;
@@ -48,7 +46,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps);
+        setContentView(R.layout.map_layout);
     }
 
     @Override
@@ -71,7 +69,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
             Criteria criteria = new Criteria();
 
-            String locationProvider = locationManager.getBestProvider(criteria,true);
+            String locationProvider = locationManager.getBestProvider(criteria, true);
             LocationListener locationListener = new LocationListener() {
                 public void onLocationChanged(Location location) {
                     onLocationsChanged(location);
@@ -94,16 +92,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
 
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 20000, 0, locationListener);
-        }
-        catch (SecurityException se)
-        {
-            Log.e("Permissions error",se.getMessage());
+        } catch (SecurityException se) {
+            Log.e("Permissions error", se.getMessage());
         }
     }
 
     private void setUpClustering() {
         mClusterManager = new ClusterManager<VendorShops>(this, mMap);
-
         mMap.setOnCameraIdleListener(mClusterManager);
         mMap.setOnMarkerClickListener(mClusterManager);
 
@@ -117,13 +112,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     private void addItems() {
-        FetchData fetchData=new FetchData();
-        String url="http://didactic.6te.net/app/vendor_list.php";
+        FetchData fetchData = new FetchData();
+        String url = "http://didactic.6te.net/app/vendor_list.php";
         fetchData.execute(url);
     }
 
     private void onLocationsChanged(Location location) {
-        if(!mapCameraMovedForCurrentLocation) {
+        if (!mapCameraMovedForCurrentLocation) {
             double latitude = location.getLatitude();
             double longitude = location.getLongitude();
 
@@ -147,7 +142,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mMap.setOnCircleClickListener(new GoogleMap.OnCircleClickListener() {
                 @Override
                 public void onCircleClick(Circle circle) {
-                    
+
                 }
             });
         }
@@ -156,15 +151,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         try {
-            googleMap.setMyLocationEnabled(true);
-            mMap=googleMap;
             if (googleMap != null) {
+                googleMap.setMyLocationEnabled(true);
+                mMap = googleMap;
                 setUpMap();
             }
-        }
-        catch (SecurityException se)
-        {
-            Log.e("Permissions error",se.getMessage());
+        } catch (SecurityException se) {
+            Log.e("Permissions error", se.getMessage());
         }
     }
 
@@ -187,7 +180,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     buffer.append(line);
                 }
                 String finalJson = buffer.toString();
-                Log.e("JSON",finalJson);
+                Log.e("JSON", finalJson);
                 JSONObject parentObject = new JSONObject(finalJson);
                 JSONArray parentArray = parentObject.getJSONArray("result");
                 vendorDataList = new ArrayList<>();
@@ -225,18 +218,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             if (result != null) {
                 // feedAdapter.clear();
                 if (result.size() > 0) {
-                    for(VendorDataModel vendorshop:result)
-                    {
+                    for (VendorDataModel vendorshop : result) {
                         mClusterManager.addItem(new VendorShops(Double.parseDouble(vendorshop.getLat()),
                                 Double.parseDouble(vendorshop.getaLong())));
                     }
-                }
-                else {
+                } else {
                     //no data present
                 }
-            }
-            else {
-                 //if result is NULL
+            } else {
+                //if result is NULL
             }
         }
     }
