@@ -1,7 +1,6 @@
 package org.self.vendorapp;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -41,7 +40,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps);
+        setContentView(R.layout.map_layout);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -102,7 +101,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private void setUpClustering() {
         mClusterManager = new ClusterManager<VendorShops>(this, mMap);
 
-        mMap.setOnCameraChangeListener(mClusterManager);
+//        mMap.setOnCameraChangeListener(mClusterManager);
         mMap.setOnMarkerClickListener(mClusterManager);
 
         // Add cluster items (markers) to the cluster manager.
@@ -140,9 +139,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         try {
-            googleMap.setMyLocationEnabled(true);
-            mMap=googleMap;
             if (googleMap != null) {
+                googleMap.setMyLocationEnabled(true);
+                mMap=googleMap;
                 setUpMap();
             }
         }

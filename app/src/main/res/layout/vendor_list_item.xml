@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/selector_vendor_list"
+    android:baselineAligned="false"
+    tools:ignore="HardcodedText">
+
+    <FrameLayout
+        android:id="@+id/imageLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <FrameLayout
+            android:id="@+id/LogoLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="16dp">
+
+            <ImageView
+                android:id="@+id/vendorLogoImageView"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:background="@color/whiteSmoke" />
+
+            <View
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:background="@drawable/logo_rectangle" />
+        </FrameLayout>
+
+        <!--<TextView-->
+        <!--android:id="@+id/closedBanner"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="51"-->
+        <!--android:layout_marginBottom="@dimen/padding_8"-->
+        <!--android:background="@drawable/closed_banner_background"-->
+        <!--android:padding="@dimen/padding_2"-->
+        <!--android:paddingBottom="@dimen/padding_2"-->
+        <!--android:paddingLeft="4dp"-->
+        <!--android:paddingRight="4dp"-->
+        <!--android:paddingTop="@dimen/padding_2"-->
+        <!--android:text="@string/NEXTGEN_CLOSED"-->
+        <!--android:textColor="@color/orange"-->
+        <!--android:textSize="@dimen/text_size_super_tiny" />-->
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/restaurantView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/imageLayout"
+        android:layout_marginTop="16dp"
+        android:layout_toEndOf="@+id/imageLayout"
+        android:layout_toRightOf="@+id/imageLayout"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/ratingAndReviewsContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <RatingBar
+                android:id="@+id/vendorRating"
+                style="@style/fpRatingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/textViewNumberOfReviews"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:layout_marginStart="4dp"
+                android:text="(0)"
+                android:textColor="@color/grey" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/vendorTitleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="Title" />
+
+        <TextView
+            android:id="@+id/tvVendorLocality"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="locality"
+            android:textColor="@color/grey" />
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@color/grey" />
+
+</RelativeLayout>
