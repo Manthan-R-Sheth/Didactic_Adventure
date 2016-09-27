@@ -41,13 +41,8 @@
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyD8LQckj7h5s6w_rAzk5UyP3WzpfkO3BCE" />
 
-        <activity
-            android:name=".MapsActivity"
-            android:label="@string/title_activity_maps" >
-        </activity>
-        <activity android:name=".HomeScreen">
-
-        </activity>
+        <activity android:name=".HomeScreen"
+            android:theme="@style/NoActionBarTheme"/>
         <activity
             android:name=".Launcher"
             android:theme="@style/NoActionBarTheme" >

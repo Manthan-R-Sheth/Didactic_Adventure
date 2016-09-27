@@ -11,11 +11,10 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.7"/>
+        android:layout_weight="1"/>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.3"
+        android:layout_height="wrap_content"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
         android:gravity="center"
@@ -50,6 +49,7 @@
                 android:textAllCaps="false"
                 android:fontFamily="sans-serif-smallcaps"
                 android:textSize="15sp"
+                android:id="@+id/btManual"
                 android:layout_gravity="start"
                 android:textColor="@color/colorPrimary"
                 android:text="Manually"
@@ -59,11 +59,12 @@
                 android:layout_height="wrap_content"
                 android:textAllCaps="false"
                 android:layout_gravity="end"
+                android:id="@+id/btLocate"
                 android:fontFamily="sans-serif-smallcaps"
                 android:textSize="15sp"
                 android:textColor="@color/whiteSmoke"
                 android:text="Locate Me"
-                android:background="@color/colorPrimary"/>
+                android:background="@drawable/ripple_effect"/>
         </FrameLayout>
     </LinearLayout>
 

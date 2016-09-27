@@ -7,4 +7,5 @@
     <color name="tonysPink">#E8A695</color>
     <color name="whiteSmoke">#F9F8F8</color>
     <color name="grey">#ececec</color>
+    <color name="gray_light_trans">#33999999</color>
 </resources>
