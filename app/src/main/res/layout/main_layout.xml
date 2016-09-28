@@ -40,7 +40,8 @@
                 android:layout_marginBottom="10dp"
                 android:id="@+id/enabled"
                 android:checked="true"
-                android:text="Enable"/>
+                android:text="Enable"
+                android:visibility="gone"/>
         </RelativeLayout>
 
         <!-- SLIDING LAYOUT -->
