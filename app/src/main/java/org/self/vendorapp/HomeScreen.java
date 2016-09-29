@@ -5,7 +5,6 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -14,26 +13,30 @@ import android.widget.CheckBox;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.maps.android.clustering.ClusterManager;
-import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 public class HomeScreen extends AppCompatActivity implements OnMapReadyCallback, SensorEventListener, ClusterManager.OnClusterItemClickListener<VendorShops> {
 
 
     public SensorManager mSensorManager;
     private CustomMapFragment mapFragment;
+    private CameraFragment cameraFragment;
     private CheckBox checkBox1;
-    private SlidingUpPanelLayout slidingUpPanelLayout;
+//    private SlidingUpPanelLayout slidingUpPanelLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         setContentView(R.layout.activity_home_screen);
-        mapFragment = ((CustomMapFragment) getSupportFragmentManager().findFragmentById(R.id.map));
+        mapFragment = new CustomMapFragment();
+        cameraFragment = new CameraFragment();
+        getSupportFragmentManager().beginTransaction().add(R.id.main_content, mapFragment, "Map Fragment").commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.main_content,cameraFragment, "Camera Fragment").commit();
+        getSupportFragmentManager().beginTransaction().hide(cameraFragment).commit();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        checkBox1 = (CheckBox) findViewById(R.id.enabled);
-        slidingUpPanelLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
+//        checkBox1 = (CheckBox) findViewById(R.id.enabled);
+//        slidingUpPanelLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
 //        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 //        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
 //                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -44,7 +47,7 @@ public class HomeScreen extends AppCompatActivity implements OnMapReadyCallback,
     @Override
     protected void onResume() {
         super.onResume();
-        if(mapFragment != null) setUpMapIfNeeded();
+        if (mapFragment != null) setUpMapIfNeeded();
         mSensorManager.registerListener(this, mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION), SensorManager.SENSOR_DELAY_UI);
     }
 
@@ -62,10 +65,32 @@ public class HomeScreen extends AppCompatActivity implements OnMapReadyCallback,
             yRotation = 0;
             mapFragment.updateCamera(xRotation, yRotation);
         } else if (yRotation < 75) {
-            if(!mapFragment.isAdded()) getSupportFragmentManager().beginTransaction().add(mapFragment,"Map Fragment").commit();
+            if (!mapFragment.isVisible())
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .setCustomAnimations(R.anim.slide_in_up, R.anim.slide_out_down)
+                        .show(mapFragment)
+                        .commit();
+            if (cameraFragment.isVisible())
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .setCustomAnimations(R.anim.slide_in_down, R.anim.slide_out_up)
+                        .hide(cameraFragment)
+                        .commit();
             mapFragment.updateCamera(xRotation, yRotation);
         } else if (yRotation < 105) {
-            if(mapFragment.isAdded()) getSupportFragmentManager().beginTransaction().remove(mapFragment).commit();
+            if (mapFragment.isVisible())
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .setCustomAnimations(R.anim.slide_in_up, R.anim.slide_out_down)
+                        .hide(mapFragment)
+                        .commit();
+            if (!cameraFragment.isVisible())
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .setCustomAnimations(R.anim.slide_in_down, R.anim.slide_out_up)
+                        .show(cameraFragment)
+                        .commit();
         }
     }
 
@@ -97,7 +122,7 @@ public class HomeScreen extends AppCompatActivity implements OnMapReadyCallback,
 
     @Override
     public boolean onClusterItemClick(VendorShops vendorShops) {
-        slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+//        slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
         return false;
     }
 }
